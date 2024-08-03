@@ -148,143 +148,143 @@ const removeEntry = (index) => {
 </script>
 <template>
   <div class="bg-container min-w-full overflow-y-scroll">
-  <div class="container">
-    <h2 class="text-2xl font-bold text-center mb-4">Summer Drama Project Registration - Summer 2024</h2>
+    <div class="container">
+      <h2 class="text-2xl font-bold text-center mb-4">Summer Drama Project Registration - Summer 2024</h2>
+      <div class="content-wrapper">
 
-    <div v-if="currentStep === 1">
-      <h3 class="text-xl font-semibold mb-2">Step 1: Confirm Attendee Requirements</h3>
-      <div v-for="(workshop, index) in workshops" :key="index" class="mb-2">
-        <label class="flex items-center space-x-2">
-          <input type="checkbox" v-model="workshop.selected" class="hidden checkbox checkbox-primary" />
-          <span class="text-center w-full">{{ workshop.name }}</span>
-        </label>
-        <div v-if="workshop.selected" class="ml-24 mt-2 space-y-2 flex flex-col mx-auto w-full ">
-          <input v-model="workshop.numChildren" type="number" placeholder="Number of Children" class="input input-bordered w-full max-w-xs" />
-          <input v-model="workshop.ageChildren" type="text" placeholder="Age of Children" class="input input-bordered w-full max-w-xs" />
-          <input v-model="workshop.foodAllergies" type="text" placeholder="Food Allergies (if any)" class="input input-bordered w-full max-w-xs" />
-          <input v-model="workshop.dietaryRequirements" type="text" placeholder="Dietary Requirements" class="input input-bordered w-full max-w-xs" />
-        </div>
-      </div>
-      <div v-if="workshopError" class="text-error mt-2">{{ workshopError }}</div>
-    </div>
-
-    <div v-if="currentStep === 2">
-      <h3 class="text-xl font-semibold mb-2">Step 2: Parent Information</h3>
-      <div class="space-y-4">
-        <div>
-          <label class="label">
-            <span class="label-text">Name of Parent / Guardian:</span>
+      <div v-if="currentStep === 1">
+        <h3 class="text-xl font-semibold mb-2">Step 1: Confirm Attendee Requirements</h3>
+        <div v-for="(workshop, index) in workshops" :key="index" class="flex flex-col mb-2">
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" v-model="workshop.selected" class="hidden checkbox checkbox-primary" />
+            <span class="text-center w-full">{{ workshop.name }}</span>
           </label>
-          <input v-model="parentInfo.name" type="text" placeholder="Full Name" class="input input-bordered w-full" />
-          <div v-if="errors.name" class="text-error mt-1">{{ errors.name }}</div>
-        </div>
-        <div>
-          <label class="label">
-            <span class="label-text">Address:</span>
-          </label>
-          <textarea v-model="parentInfo.address" placeholder="Address" class="textarea textarea-bordered w-full"></textarea>
-          <div v-if="errors.address" class="text-error mt-1">{{ errors.address }}</div>
-        </div>
-        <div>
-          <label class="label">
-            <span class="label-text">Phone:</span>
-          </label>
-          <input v-model="parentInfo.phone" type="tel" placeholder="Phone Number" class="input input-bordered w-full" />
-          <div v-if="errors.phone" class="text-error mt-1">{{ errors.phone }}</div>
-        </div>
-        <div>
-          <label class="label">
-            <span class="label-text">Email:</span>
-          </label>
-          <input v-model="parentInfo.email" type="email" placeholder="Email Address" class="input input-bordered w-full" />
-          <div v-if="errors.email" class="text-error mt-1">{{ errors.email }}</div>
-        </div>
-      </div>
-    </div>
-    <div v-if="currentStep === 3">
-      <h3 class="text-xl font-semibold mb-2">Step 3: Photographic/Video/Film Consent</h3>
-      <div class="space-y-4">
-        <p class="font-light">
-          Doddington Grove Resident Association (DGRA) is asking for your permission to take and publish photographs or films of you or
-          your child in electronic and printed publications. Photographs or films of you or your child will only be used with your consent and in
-          the correct context by our organisation and/or Southwark Council.
-        </p>
-        <p>
-          I give Doddington Grove Resident Association and Southwark Council permission to publish photographs or films bearing
-          my image or the image of my child. I understand that I can withdraw my permission at any time.
-          <span class="font-bold">Photographer/videographer: DGRA and Blue Elephant Theatre</span>
-        </p>
-        <div>
-          <div class="mt-2 space-y-2 flex flex-col mx-auto w-full">
-            <input v-model="newEntry.parentName" type="text" placeholder="Parent Name" class="input input-bordered w-full max-w-full" />
-            <input v-model="newEntry.childOrParentName" type="text" placeholder="Child's/Parent's name (person to be photographed/filmed)" class="input input-bordered w-full max-w-full" />
-            <input v-model="newEntry.contactNumber" type="text" placeholder="Contact Number" class="input input-bordered w-full max-w-full" />
-          </div>
-          <div class="flex mt-3">
-            <button @click="addToPhotoConsentList" class="text-sm">Add to Photo Consent List</button>
+          <div v-if="workshop.selected" class=" mt-2 space-y-2 flex flex-col mx-auto w-full ">
+            <input v-model="workshop.numChildren" type="number" placeholder="Number of Children" class="input input-bordered w-full max-w-xs" />
+            <input v-model="workshop.ageChildren" type="text" placeholder="Age of Children" class="input input-bordered w-full max-w-xs" />
+            <input v-model="workshop.foodAllergies" type="text" placeholder="Food Allergies (if any)" class="input input-bordered w-full max-w-xs" />
+            <input v-model="workshop.dietaryRequirements" type="text" placeholder="Dietary Requirements" class="input input-bordered w-full max-w-xs" />
           </div>
         </div>
+        <div v-if="workshopError" class="text-error mt-2">{{ workshopError }}</div>
+      </div>
 
-        <div class="overflow-x-auto">
-          <table v-if="photoConsentList.length" class="table w-2/3">
-            <thead>
-            <tr>
-              <th>Child's/Parent's Name</th>
-              <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(entry, index) in photoConsentList" :key="index">
-              <td>{{ entry.childOrParentName }}</td>
-              <td>
-                <button @click="removeEntry(index)" class="btn btn-sm btn-error">Remove</button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+      <div v-if="currentStep === 2">
+        <h3 class="text-xl font-semibold mb-2">Step 2: Parent Information</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="label">
+              <span class="label-text">Name of Parent / Guardian:</span>
+            </label>
+            <input v-model="parentInfo.name" type="text" placeholder="Full Name" class="input input-bordered w-full" />
+            <div v-if="errors.name" class="text-error mt-1">{{ errors.name }}</div>
+          </div>
+          <div>
+            <label class="label">
+              <span class="label-text">Address:</span>
+            </label>
+            <textarea v-model="parentInfo.address" placeholder="Address" class="textarea textarea-bordered w-full"></textarea>
+            <div v-if="errors.address" class="text-error mt-1">{{ errors.address }}</div>
+          </div>
+          <div>
+            <label class="label">
+              <span class="label-text">Phone:</span>
+            </label>
+            <input v-model="parentInfo.phone" type="tel" placeholder="Phone Number" class="input input-bordered w-full" />
+            <div v-if="errors.phone" class="text-error mt-1">{{ errors.phone }}</div>
+          </div>
+          <div>
+            <label class="label">
+              <span class="label-text">Email:</span>
+            </label>
+            <input v-model="parentInfo.email" type="email" placeholder="Email Address" class="input input-bordered w-full" />
+            <div v-if="errors.email" class="text-error mt-1">{{ errors.email }}</div>
+          </div>
         </div>
       </div>
-    </div>
-    <div v-if="currentStep === 4">
-      <h3 class="text-xl font-semibold mb-2">Step 4: Review and Submit</h3>
-      <div class="space-y-4">
-        <div>
-          <h4 class="font-semibold">Selected Workshops:</h4>
-          <ul class="list-disc list-inside">
-            <li v-for="workshop in selectedWorkshops" :key="workshop.name">
-              {{ workshop.name }} - {{ workshop.numChildren }} child(ren), Age(s): {{ workshop.ageChildren }}
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-semibold">Parent Information:</h4>
-          <p>Name: {{ parentInfo.name }}</p>
-          <p>Address: {{ parentInfo.address }}</p>
-          <p>Phone: {{ parentInfo.phone }}</p>
-          <p>Email: {{ parentInfo.email }}</p>
-        </div>
-        <div class="form-control">
-          <label class="label cursor-pointer">
-            <span class="label-text">You agree to receive e-mail communication from us by filling out this form and
-understand that your contact information will be stored with us in relation to this project.</span>
-            <input v-model="agreeToTerms" type="checkbox" class=" checked checkbox checkbox-primary" />
-          </label>
+      <div v-if="currentStep === 3">
+        <h3 class="text-xl font-semibold mb-2">Step 3: Photographic/Video/Film Consent</h3>
+        <div class="space-y-4">
+          <p class="font-light">
+            Doddington Grove Resident Association (DGRA) is asking for your permission to take and publish photographs or films of you or
+            your child in electronic and printed publications. Photographs or films of you or your child will only be used with your consent and in
+            the correct context by our organisation and/or Southwark Council.
+          </p>
+          <p>
+            I give Doddington Grove Resident Association and Southwark Council permission to publish photographs or films bearing
+            my image or the image of my child. I understand that I can withdraw my permission at any time.
+            <span class="font-bold">Photographer/videographer: DGRA and Blue Elephant Theatre</span>
+          </p>
+          <div>
+            <div class="mt-2 space-y-2 flex flex-col mx-auto w-full">
+              <input v-model="newEntry.parentName" type="text" placeholder="Parent Name" class="input input-bordered w-full max-w-full" />
+              <input v-model="newEntry.childOrParentName" type="text" placeholder="Child's/Parent's name (person to be photographed/filmed)" class="input input-bordered w-full max-w-full" />
+              <input v-model="newEntry.contactNumber" type="text" placeholder="Contact Number" class="input input-bordered w-full max-w-full" />
+            </div>
+            <div class="flex mt-3">
+              <button @click="addToPhotoConsentList" class="text-sm">Add to Photo Consent List</button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table v-if="photoConsentList.length" class="table w-2/3">
+              <thead>
+              <tr>
+                <th>Child's/Parent's Name</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(entry, index) in photoConsentList" :key="index">
+                <td>{{ entry.childOrParentName }}</td>
+                <td>
+                  <button @click="removeEntry(index)" class="btn btn-sm btn-error">Remove</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-
-
-
-    <div v-if="submissionStatus" class="text-zinc-50" :class="['alert', submissionStatus === 'success' ? 'alert-success' : 'alert-error', 'mt-4']">
-      <span>{{ submissionMessage }}</span>
-    </div>
-    <div class="mt-4 space-x-2">
-      <button v-if="currentStep > 1" @click="previousStep">Previous</button>
-      <button v-if="currentStep < 4 && !finished" @click="nextStep">Next</button>
-      <button v-if="currentStep === 4" @click="submitForm" :disabled="!agreeToTerms">Submit</button>
+      <div v-if="currentStep === 4">
+        <h3 class="text-xl font-semibold mb-2">Step 4: Review and Submit</h3>
+        <div class="space-y-4">
+          <div>
+            <h4 class="font-semibold">Selected Workshops:</h4>
+            <ul class="list-disc list-inside">
+              <li v-for="workshop in selectedWorkshops" :key="workshop.name">
+                {{ workshop.name }} - {{ workshop.numChildren }} child(ren), Age(s): {{ workshop.ageChildren }}
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold">Parent Information:</h4>
+            <p>Name: {{ parentInfo.name }}</p>
+            <p>Address: {{ parentInfo.address }}</p>
+            <p>Phone: {{ parentInfo.phone }}</p>
+            <p>Email: {{ parentInfo.email }}</p>
+          </div>
+          <div class="form-control">
+            <label class="label cursor-pointer">
+              <span class="label-text">You agree to receive e-mail communication from us by filling out this form and
+  understand that your contact information will be stored with us in relation to this project.</span>
+              <input v-model="agreeToTerms" type="checkbox" class=" checked checkbox checkbox-primary" />
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="button-container">
+        <div v-if="submissionStatus" class="text-zinc-50" :class="['alert', submissionStatus === 'success' ? 'alert-success' : 'alert-error', 'mt-4']">
+          <span>{{ submissionMessage }}</span>
+        </div>
+        <div class="mt-4 space-x-2">
+          <button v-if="currentStep > 1" @click="previousStep">Previous</button>
+          <button v-if="currentStep < 4 && !finished" @click="nextStep">Next</button>
+          <button v-if="currentStep === 4" @click="submitForm" :disabled="!agreeToTerms">Submit</button>
+        </div>
+      </div>
     </div>
   </div>
-
   </div>
 </template>
 <style scoped>
@@ -292,42 +292,70 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-}
-
-.container {
-  width: 100%;
-  @apply bg-zinc-50 mx-auto p-10 rounded-3xl items-center justify-center mt-12;
-}
-
-button {
-  background-color:rgb(252,175,59);
-  color: rgb(1,1,1);
-  text-transform: uppercase;
-  font-weight:700;
+  overflow: hidden;
 }
 
 .bg-container {
-  /* background-image: url('/flowersbg.webp'); */
   background-color: rgb(237,237,237);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-blend-mode: exclusion;
   width: 100%;
   height: 100vh;
-  min-height: 100%;
+  overflow-y: auto;
   position: fixed;
   top: 0;
   left: 0;
 }
-.bg-container {
-  background-color: rgb(237,237,237);
 
-/*   background-image: url('/flowersbg.webp');*/
-  background-size: cover;
-  background-position: center;
-  background-repeat: repeat;
-  width:100% !important;
-  height:100vh;
+.container {
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  @apply bg-zinc-50 mx-auto p-6 rounded-3xl mt-4 mb-4;
+}
+
+.content-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 80px; /* Add padding to prevent content from being hidden behind the button */
+}
+
+.button-container {
+  position: sticky;
+  bottom: 0;
+  background-color: rgb(237,237,237);
+  padding: 10px 0;
+  margin-top: auto;
+}
+
+button {
+  background-color: rgb(252,175,59);
+  color: rgb(1,1,1);
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 10px 20px;
+  margin: 5px;
+}
+
+/* Add responsive styles for smaller screens */
+@media (max-width: 640px) {
+  .container {
+    padding: 4px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+  .content-wrapper {
+    padding-bottom: 100px;
+  }
+
+  .button-container {
+    padding: 5px 0;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
 }
 </style>
