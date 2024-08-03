@@ -147,7 +147,7 @@ const removeEntry = (index) => {
 
 </script>
 <template>
-  <div class="bg-container min-w-full">
+  <div class="bg-container min-w-full overflow-y-scroll">
   <div class="container">
     <h2 class="text-2xl font-bold text-center mb-4">Summer Drama Project Registration - Summer 2024</h2>
 
